@@ -4,25 +4,24 @@ import hackbright
 
 app = Flask(__name__)
 
+
 @app.route("/student")
 def get_student():
     """Show information about a student."""
 
-    github = request.args.get('github', 'jhacks')
+    github = "jhacks"
     first, last, github = hackbright.get_student_by_github(github)
-    html = render_template("student_info.html",
-                            first=first,
-                            last=last,
-                            github=github)
+    return "%s is the GitHub account for %s %s" % (github, first, last)
 
-    return html
-
-
-@app.route("/student-search")
+@app.route("/student_search")
 def get_student_form():
-    """Show form for searching for a student."""
+    """Show form searching for student."""
 
     return render_template("student_search.html")
+
+@app.route("/new-student", methods=['POST'])
+def make_new_student():
+    """Add a student."""
 
 if __name__ == "__main__":
     app.run(debug=True)
